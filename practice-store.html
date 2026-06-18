@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Botanica — Practice Store (GTM / GA4 sandbox)</title>
+
+<!-- =========================================================================
+     STEP A — CONSENT MODE v2 DEFAULTS
+     This MUST run BEFORE the GTM snippet loads. It tells Google to withhold
+     storage until the user consents (EU / GDPR default = denied).
+     Leave this here; it is part of your practice.
+     ========================================================================= -->
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){ dataLayer.push(arguments); }
+  gtag('consent', 'default', {
+    ad_storage:        'denied',
+    analytics_storage: 'denied',
+    ad_user_data:      'denied',
+    ad_personalization:'denied',
+    wait_for_update:   500
+  });
+</script>
+
+<!-- =========================================================================
+     STEP B — PASTE YOUR GTM <head> SNIPPET DIRECTLY BELOW THIS COMMENT.
+     In GTM: Admin → Install Google Tag Manager → copy the first snippet
+     (the <script> block) and paste it right here.
+     ========================================================================= -->
+
+<!-- 👇 GTM HEAD SNIPPET GOES HERE 👇 -->
+
+<!-- 👆 GTM HEAD SNIPPET GOES HERE 👆 -->
+
+<style>
+  :root{
+    --ink:#23291f; --paper:#f6f4ee; --card:#fffdf8; --line:#dcd6c6;
+    --leaf:#4f6b3e; --leaf-dk:#3a5230; --gold:#b08438; --muted:#7c7a6e;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:'Georgia',serif;background:var(--paper);color:var(--ink);line-height:1.5}
+  header{display:flex;align-items:center;justify-content:space-between;padding:18px 28px;border-bottom:1px solid var(--line);background:var(--card);position:sticky;top:0;z-index:50}
+  .brand{font-size:22px;letter-spacing:2px;font-weight:700;color:var(--leaf-dk)}
+  .brand span{color:var(--gold)}
+  .cart-btn{font-family:system-ui,sans-serif;font-size:14px;border:1px solid var(--leaf);background:transparent;color:var(--leaf-dk);padding:8px 14px;border-radius:999px;cursor:pointer}
+  .cart-btn:hover{background:var(--leaf);color:#fff}
+  main{max-width:1040px;margin:0 auto;padding:28px}
+  h1{font-size:30px;color:var(--leaf-dk);margin:0 0 4px}
+  .sub{font-family:system-ui,sans-serif;color:var(--muted);font-size:14px;margin-bottom:24px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:18px}
+  .product{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:18px;cursor:pointer;transition:.15s}
+  .product:hover{transform:translateY(-3px);box-shadow:0 8px 20px rgba(40,50,30,.08)}
+  .swatch{height:120px;border-radius:8px;margin-bottom:12px}
+  .pname{font-weight:700;color:var(--leaf-dk)}
+  .pcat{font-family:system-ui,sans-serif;font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:1px}
+  .price{font-family:system-ui,sans-serif;font-weight:600;margin-top:6px}
+  button.add{font-family:system-ui,sans-serif;margin-top:12px;width:100%;border:none;background:var(--leaf);color:#fff;padding:10px;border-radius:8px;cursor:pointer;font-size:14px}
+  button.add:hover{background:var(--leaf-dk)}
+  .panel{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:22px;margin-bottom:18px}
+  .row{display:flex;justify-content:space-between;font-family:system-ui,sans-serif;padding:8px 0;border-bottom:1px dashed var(--line)}
+  .btn-primary{font-family:system-ui,sans-serif;border:none;background:var(--gold);color:#fff;padding:12px 20px;border-radius:8px;cursor:pointer;font-size:15px;margin-top:14px}
+  .btn-primary:hover{filter:brightness(.93)}
+  .hidden{display:none}
+  /* On-page dataLayer inspector so you can SEE every push as you click */
+  #dl-inspector{position:fixed;right:0;bottom:0;width:360px;max-height:46vh;overflow:auto;background:#1c2118;color:#cfe3bd;font-family:ui-monospace,Menlo,monospace;font-size:11px;border-top-left-radius:10px;box-shadow:-4px -4px 18px rgba(0,0,0,.25);z-index:60}
+  #dl-inspector h4{margin:0;padding:8px 12px;background:#0f130b;color:#9fcf7c;font-family:system-ui,sans-serif;font-size:12px;position:sticky;top:0}
+  #dl-inspector pre{margin:0;padding:8px 12px;border-bottom:1px solid #2c331f;white-space:pre-wrap;word-break:break-word}
+  #dl-inspector .evt{color:#f2c66b;font-weight:700}
+  #consent-banner{position:fixed;left:0;right:0;bottom:0;background:var(--leaf-dk);color:#fff;font-family:system-ui,sans-serif;padding:16px 20px;display:flex;gap:14px;align-items:center;justify-content:center;z-index:70;flex-wrap:wrap}
+  #consent-banner button{border:none;padding:9px 16px;border-radius:6px;cursor:pointer;font-size:14px}
+  .c-accept{background:var(--gold);color:#fff}
+  .c-reject{background:transparent;color:#fff;border:1px solid #fff!important}
+</style>
+</head>
+<body>
+
+<!-- =========================================================================
+     STEP C — PASTE YOUR GTM <body> (noscript) SNIPPET DIRECTLY BELOW.
+     In GTM the second snippet starts with <noscript>. Paste it right here,
+     immediately after the opening <body> tag.
+     ========================================================================= -->
+
+<!-- 👇 GTM BODY SNIPPET GOES HERE 👇 -->
+
+<!-- 👆 GTM BODY SNIPPET GOES HERE 👆 -->
+
+<header>
+  <div class="brand">BOTANI<span>·</span>CA</div>
+  <button class="cart-btn" onclick="goCart()">Cart (<span id="cart-count">0</span>)</button>
+</header>
+
+<main>
+  <!-- VIEW: product list -->
+  <section id="view-list">
+    <h1>Pure botanicals & micronutrients</h1>
+    <div class="sub">Practice store · every click pushes a real GA4 e-commerce event to the data layer →</div>
+    <div class="grid" id="product-grid"></div>
+  </section>
+
+  <!-- VIEW: single product -->
+  <section id="view-product" class="hidden">
+    <div class="sub" style="cursor:pointer" onclick="goList()">← back to all products</div>
+    <div class="panel" id="product-detail"></div>
+  </section>
+
+  <!-- VIEW: cart -->
+  <section id="view-cart" class="hidden">
+    <h1>Your cart</h1>
+    <div class="panel" id="cart-lines"></div>
+    <button class="btn-primary" onclick="goCheckout()">Proceed to checkout</button>
+  </section>
+
+  <!-- VIEW: checkout -->
+  <section id="view-checkout" class="hidden">
+    <h1>Checkout</h1>
+    <div class="panel">
+      <div class="sub">Step 1 of 2 — shipping</div>
+      <div class="row"><span>Standard shipping (DE)</span><span>€3.90</span></div>
+      <button class="btn-primary" onclick="addShipping()">Continue to payment</button>
+    </div>
+    <div class="panel hidden" id="payment-block">
+      <div class="sub">Step 2 of 2 — payment</div>
+      <div class="row"><span>Pay by invoice</span><span>selected</span></div>
+      <button class="btn-primary" onclick="completePurchase()">Place order</button>
+    </div>
+  </section>
+
+  <!-- VIEW: thank you -->
+  <section id="view-thankyou" class="hidden">
+    <h1>Thank you for your order 🌿</h1>
+    <div class="sub">A <code>purchase</code> event with transaction_id just fired. Check it in the inspector, GTM Preview and GA4 DebugView.</div>
+    <button class="btn-primary" onclick="goList()">Back to shop</button>
+  </section>
+</main>
+
+<!-- Consent Mode v2 banner -->
+<div id="consent-banner">
+  <span>We use cookies for analytics & marketing. (Consent Mode v2 practice banner.)</span>
+  <button class="c-accept" onclick="setConsent(true)">Accept all</button>
+  <button class="c-reject" onclick="setConsent(false)">Reject</button>
+</div>
+
+<!-- Live data layer inspector -->
+<div id="dl-inspector"><h4>📡 dataLayer pushes (most recent on top)</h4></div>
+
+<script>
+/* ============================================================================
+   PRACTICE STORE LOGIC
+   Everything below builds a realistic GA4 e-commerce data layer.
+   You don't need to edit it — your job is to read the dataLayer events it
+   produces and build matching tags/triggers/variables in GTM.
+   ========================================================================= */
+
+const CURRENCY = 'EUR';
+
+const PRODUCTS = [
+  { item_id:'SN-MAG-300', item_name:'Magnesium Glycinate 300mg', item_category:'Minerals',        price:24.90, color:'#5b6e4a' },
+  { item_id:'SN-D3K2-50', item_name:'Vitamin D3 + K2 Drops',     item_category:'Vitamins',        price:19.90, color:'#c9a13b' },
+  { item_id:'SN-LAV-10',  item_name:'Lavender Essential Oil 10ml',item_category:'Essential Oils',  price:14.50, color:'#7d6f9c' },
+  { item_id:'SN-OMG-90',  item_name:'Omega-3 Algae 90 caps',     item_category:'Fatty Acids',     price:29.90, color:'#3f7a73' },
+  { item_id:'SN-ZIN-60',  item_name:'Zinc Bisglycinate 60 caps', item_category:'Minerals',        price:12.90, color:'#8a6d4b' },
+  { item_id:'SN-ASH-120', item_name:'Ashwagandha KSM-66',        item_category:'Adaptogens',      price:21.90, color:'#6b5536' }
+];
+
+let cart = [];
+
+/* ---- helper: clear then push, and mirror to the on-page inspector -------- */
+function dlPush(obj){
+  // Best practice: clear the previous ecommerce object so values don't merge
+  if (obj.ecommerce) { window.dataLayer.push({ ecommerce: null }); }
+  window.dataLayer.push(obj);
+  renderInspector(obj);
+}
+function renderInspector(obj){
+  const box = document.getElementById('dl-inspector');
+  const pre = document.createElement('pre');
+  const evt = obj.event ? `<span class="evt">${obj.event}</span>\n` : '';
+  pre.innerHTML = evt + JSON.stringify(obj, null, 2);
+  box.insertBefore(pre, box.children[1] || null);
+}
+
+/* ---- view_item_list (fires on load) -------------------------------------- */
+function renderList(){
+  const grid = document.getElementById('product-grid');
+  grid.innerHTML = '';
+  PRODUCTS.forEach((p, i) => {
+    const el = document.createElement('div');
+    el.className = 'product';
+    el.onclick = () => selectItem(p);
+    el.innerHTML = `
+      <div class="swatch" style="background:${p.color}"></div>
+      <div class="pcat">${p.item_category}</div>
+      <div class="pname">${p.item_name}</div>
+      <div class="price">€${p.price.toFixed(2)}</div>
+      <button class="add" onclick="event.stopPropagation();addToCart('${p.item_id}')">Add to cart</button>`;
+    grid.appendChild(el);
+  });
+  dlPush({
+    event:'view_item_list',
+    ecommerce:{ item_list_name:'All products',
+      items: PRODUCTS.map((p,i)=>({ ...itemPayload(p), index:i+1 })) }
+  });
+}
+
+function itemPayload(p, qty){
+  const o = { item_id:p.item_id, item_name:p.item_name, item_category:p.item_category, price:p.price };
+  if (qty) o.quantity = qty;
+  return o;
+}
+
+/* ---- select_item + view_item --------------------------------------------- */
+function selectItem(p){
+  dlPush({ event:'select_item', ecommerce:{ item_list_name:'All products', items:[ itemPayload(p) ] } });
+  showProduct(p);
+}
+function showProduct(p){
+  show('view-product');
+  document.getElementById('product-detail').innerHTML = `
+    <div class="swatch" style="background:${p.color};height:160px"></div>
+    <div class="pcat">${p.item_category}</div>
+    <h1>${p.item_name}</h1>
+    <div class="price" style="font-size:20px">€${p.price.toFixed(2)}</div>
+    <p style="font-family:system-ui,sans-serif;color:var(--muted);max-width:520px">Pure, additive-free, third-party tested. This is sandbox copy — the point is the event below.</p>
+    <button class="btn-primary" onclick="addToCart('${p.item_id}')">Add to cart</button>`;
+  dlPush({ event:'view_item', ecommerce:{ currency:CURRENCY, value:p.price, items:[ itemPayload(p,1) ] } });
+}
+
+/* ---- add_to_cart --------------------------------------------------------- */
+function addToCart(id){
+  const p = PRODUCTS.find(x=>x.item_id===id);
+  const line = cart.find(x=>x.item_id===id);
+  if (line) line.quantity++; else cart.push({ ...p, quantity:1 });
+  updateCount();
+  dlPush({ event:'add_to_cart', ecommerce:{ currency:CURRENCY, value:p.price, items:[ itemPayload(p,1) ] } });
+}
+
+/* ---- view_cart ----------------------------------------------------------- */
+function goCart(){
+  show('view-cart');
+  const box = document.getElementById('cart-lines');
+  if (!cart.length){ box.innerHTML = '<div class="sub">Cart is empty.</div>'; return; }
+  box.innerHTML = cart.map(l=>`<div class="row"><span>${l.item_name} × ${l.quantity}</span><span>€${(l.price*l.quantity).toFixed(2)}</span></div>`).join('')
+    + `<div class="row" style="font-weight:700"><span>Total</span><span>€${cartValue().toFixed(2)}</span></div>`;
+  dlPush({ event:'view_cart', ecommerce:{ currency:CURRENCY, value:cartValue(), items:cart.map(l=>itemPayload(l,l.quantity)) } });
+}
+
+/* ---- begin_checkout ------------------------------------------------------ */
+function goCheckout(){
+  if (!cart.length){ goCart(); return; }
+  show('view-checkout');
+  document.getElementById('payment-block').classList.add('hidden');
+  dlPush({ event:'begin_checkout', ecommerce:{ currency:CURRENCY, value:cartValue(), items:cart.map(l=>itemPayload(l,l.quantity)) } });
+}
+
+/* ---- add_shipping_info --------------------------------------------------- */
+function addShipping(){
+  document.getElementById('payment-block').classList.remove('hidden');
+  dlPush({ event:'add_shipping_info', ecommerce:{ currency:CURRENCY, value:cartValue(), shipping_tier:'Standard', items:cart.map(l=>itemPayload(l,l.quantity)) } });
+}
+
+/* ---- purchase ------------------------------------------------------------ */
+function completePurchase(){
+  const txnId = 'T-' + Date.now();
+  dlPush({ event:'add_payment_info', ecommerce:{ currency:CURRENCY, value:cartValue(), payment_type:'Invoice', items:cart.map(l=>itemPayload(l,l.quantity)) } });
+  dlPush({
+    event:'purchase',
+    ecommerce:{
+      transaction_id: txnId,
+      currency: CURRENCY,
+      value: +(cartValue()+3.90).toFixed(2),
+      shipping: 3.90,
+      tax: +(cartValue()*0.19).toFixed(2),
+      items: cart.map(l=>itemPayload(l,l.quantity))
+    }
+  });
+  cart = []; updateCount();
+  show('view-thankyou');
+}
+
+/* ---- small helpers ------------------------------------------------------- */
+function cartValue(){ return cart.reduce((s,l)=>s+l.price*l.quantity,0); }
+function updateCount(){ document.getElementById('cart-count').textContent = cart.reduce((s,l)=>s+l.quantity,0); }
+function show(id){ ['view-list','view-product','view-cart','view-checkout','view-thankyou'].forEach(v=>document.getElementById(v).classList.add('hidden')); document.getElementById(id).classList.remove('hidden'); window.scrollTo(0,0); }
+function goList(){ show('view-list'); }
+
+/* ---- Consent Mode v2 update --------------------------------------------- */
+function setConsent(granted){
+  const state = granted ? 'granted' : 'denied';
+  gtag('consent', 'update', {
+    ad_storage: state, analytics_storage: state, ad_user_data: state, ad_personalization: state
+  });
+  dlPush({ event: granted ? 'consent_accepted' : 'consent_rejected' });
+  document.getElementById('consent-banner').style.display = 'none';
+}
+
+/* boot */
+renderList();
+</script>
+</body>
+</html>
